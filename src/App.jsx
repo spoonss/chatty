@@ -21,6 +21,8 @@ class App extends Component {
   };
 
   componentDidMount() {
+    const ws = new WebSocket("ws://localhost:3001");
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
