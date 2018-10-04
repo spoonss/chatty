@@ -9,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: { name: "Bob" },
-      messages: [] // messages coming from the server will be stored here as they arrive
+      messages: [], // messages coming from the server will be stored here as they arrive
+      onlineUsers: 0
     };
   }
 
@@ -29,7 +30,7 @@ class App extends Component {
       name: userName
     };
 
-    let newNotificatin = {
+    let newNotification = {
       type: "postNotification",
       username: userName,
       content: `${
@@ -42,7 +43,7 @@ class App extends Component {
       messages: this.state.messages
     });
 
-    this.ws.send(JSON.stringify(newNotificatin));
+    this.ws.send(JSON.stringify(newNotification));
     // const messages = this.state.conversations[0].messages.concat(newMessage);
     // // this.state.conversations[0].messages = messages;
     // // this.setState({ conversations });
@@ -52,22 +53,30 @@ class App extends Component {
     // create web socket connection
     this.ws = new WebSocket("ws://localhost:3001");
     this.ws.onmessage = event => {
-      let data = JSON.parse(event.data);
-      let updatedmessages = this.state.messages.concat(data);
+      // let data = JSON.parse(event.data);
+      // let updatedmessages = this.state.messages.concat(data);
+      // this.connectionSocket.onmessage = (event) => {
+      let incomingMessage = JSON.parse(event.data);
+      console.log("user count", incomingMessage);
+      if (incomingMessage.type === "onlineUsersUpdate") {
+        this.setState({
+          currentUser: this.state.currentUser,
+          messages: this.state.messages,
+          onlineUsers: incomingMessage.content
+        });
+      } else {
+        let messagesConcat = this.state.messages.concat(incomingMessage);
+        this.setState({
+          currentUser: this.state.currentUser,
+          messages: messagesConcat,
+          onlineUsers: this.state.onlineUsers
+        });
+      }
 
-      // switch (data.type) {
-      //   case "incomingMessage":
-      //     break;
-      //   case "incomingNotification":
-      //     break;
-      //   default:
-      //     throw new Error("Unknown event type " + data.type);
-      // }
-
-      this.setState({
-        currentUser: this.state.currentUser,
-        messages: updatedmessages
-      });
+      // this.setState({
+      //   currentUser: this.state.currentUser,
+      //   messages: updatedmessages
+      // });
     };
 
     console.log("componentDidMount <App />");
@@ -96,6 +105,9 @@ class App extends Component {
           <a href="/" className="navbar-brand">
             Chatty
           </a>
+          <span className="userCounter">
+            {this.state.onlineUsers} active user
+          </span>
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar
