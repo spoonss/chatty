@@ -23,19 +23,41 @@ wss.on("connection", ws => {
   console.log("Client connected");
   ws.on("message", function incoming(newMessage) {
     console.log("received: %s", newMessage);
-    let message = JSON.parse(newMessage);
-    // console.log("User", message.username, "said", message.content, "id", id);
-    let messageFromServer = {
-      id: uuidv4(),
-      username: message.username,
-      content: message.content
-    };
+    let data = JSON.parse(newMessage);
+    let outgoingMessage = {};
+    // console.log(data);
+    switch (data.type) {
+      case "postMessage":
+        outgoingMessage = {
+          type: "incomingMessage",
+          id: uuidv4(),
+          username: data.username,
+          content: data.content
+        };
+        break;
+
+      case "postNotification":
+        outgoingMessage = {
+          type: "incomingNotification",
+          id: uuidv4(),
+          username: data.username,
+          content: data.content
+        };
+        break;
+    }
+
+    // let messageFromServer = {
+    //   id: uuidv4(),
+    //   username: message.username,
+    //   content: message.content
+    // };
 
     // Broadcast everyone
     wss.clients.forEach(function each(client) {
       if (client.readyState === WSocket.OPEN) {
         console.log("Sending to Client");
-        client.send(JSON.stringify(messageFromServer));
+        client.send(JSON.stringify(outgoingMessage));
+        console.log("to client", JSON.stringify(outgoingMessage));
       }
     });
 

@@ -17,6 +17,7 @@ class App extends Component {
   addNewMessage = msg => {
     let newMessage = {
       // username: this.state.conversations[0].currentUser.name,
+      type: "postMessage",
       username: this.state.currentUser.name,
       content: msg
     };
@@ -28,11 +29,20 @@ class App extends Component {
       name: userName
     };
 
+    let newNotificatin = {
+      type: "postNotification",
+      username: userName,
+      content: `${
+        this.state.currentUser.name
+      } has changed their name to ${userName}.`
+    };
+
     this.setState({
       currentUser: newUserName,
       messages: this.state.messages
     });
 
+    this.ws.send(JSON.stringify(newNotificatin));
     // const messages = this.state.conversations[0].messages.concat(newMessage);
     // // this.state.conversations[0].messages = messages;
     // // this.setState({ conversations });
@@ -42,8 +52,18 @@ class App extends Component {
     // create web socket connection
     this.ws = new WebSocket("ws://localhost:3001");
     this.ws.onmessage = event => {
-      let incomingMessage = JSON.parse(event.data);
-      let updatedmessages = this.state.messages.concat(incomingMessage);
+      let data = JSON.parse(event.data);
+      let updatedmessages = this.state.messages.concat(data);
+
+      // switch (data.type) {
+      //   case "incomingMessage":
+      //     break;
+      //   case "incomingNotification":
+      //     break;
+      //   default:
+      //     throw new Error("Unknown event type " + data.type);
+      // }
+
       this.setState({
         currentUser: this.state.currentUser,
         messages: updatedmessages
