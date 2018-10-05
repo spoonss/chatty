@@ -14,13 +14,18 @@ class App extends Component {
     };
   }
 
+  generateRandomColor() {
+    return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
+  }
+
   //Add new Message
   addNewMessage = msg => {
     let newMessage = {
       // username: this.state.conversations[0].currentUser.name,
       type: "postMessage",
       username: this.state.currentUser.name,
-      content: msg
+      content: msg,
+      color: this.userColor
     };
     this.ws.send(JSON.stringify(newMessage));
   };
@@ -52,6 +57,14 @@ class App extends Component {
   componentDidMount() {
     // create web socket connection
     this.ws = new WebSocket("ws://localhost:3001");
+
+    this.ws.onopen = event => {
+      // this.connectionSocket.send("Here's some text that the server is urgently awaiting!");
+      console.log("Connected to Server");
+      this.userColor = this.generateRandomColor();
+      console.log(this.userColor);
+    };
+
     this.ws.onmessage = event => {
       // let data = JSON.parse(event.data);
       // let updatedmessages = this.state.messages.concat(data);

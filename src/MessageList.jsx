@@ -8,6 +8,7 @@ class MessageList extends Component {
         type={message.type}
         userName={message.username}
         content={message.content}
+        userColor={message.color}
         key={index}
       />
     ));
