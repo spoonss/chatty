@@ -5,10 +5,10 @@ A responsive real-time chat app built with React and WebSockets.
 ## Final Product
 
 ### Chatty layout
-!["Screenshot of Chatty"](x.png)
+!["Screenshot of Chatty"](https://github.com/spoonss/chatty/blob/master/doc/chatty.png)
 
 ### Two chats going om
-!["Screenshot of chatting"](x.png)
+!["Screenshot of chatting"](https://github.com/spoonss/chatty/blob/master/doc/two-chats.png)
 
 
 ## Dependencies
