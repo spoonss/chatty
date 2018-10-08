@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Bob" },
+      currentUser: { name: "Anonymous" },
       messages: [], // messages coming from the server will be stored here as they arrive
       onlineUsers: 0
     };
@@ -40,7 +40,7 @@ class App extends Component {
       username: userName,
       content: `${
         this.state.currentUser.name
-      } has changed their name to ${userName}.`
+        } has changed their name to ${userName}.`
     };
 
     this.setState({

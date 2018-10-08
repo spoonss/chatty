@@ -1,45 +1,46 @@
-React Boilerplate
-=====================
+# Chatty App Project
 
-A minimal and light dev environment for ReactJS.
+A responsive real-time chat app built with React and WebSockets.
 
-### Usage
+## Final Product
 
-Clone the boilerplate and create your own git repo.
+### Chatty layout
+!["Screenshot of Chatty"](x.png)
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+### Two chats going om
+!["Screenshot of chatting"](x.png)
 
-Install the dependencies and start the server.
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+## Dependencies
 
-### Static Files
+- babel-core
+- babel-loader
+- babel-preset-es2015
+- babel-preset-react
+- "babel-preset-stage-0
+- css-loader
+- eslint
+- eslint-plugin-react
+- node-sass
+- sass-loader
+- sockjs-client
+- style-loader
+- webpack
+- webpack-dev-server
+- express
+- react
+- react-dom
+- ws
 
-You can store static files like images, fonts, etc in the `build` folder.
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+## Getting Started
 
-### Linting
+Installation:
+1. Navigate to chatt_server folder and Install all dependencies (using the `npm install` command).
+2. Navigate to react-simple-boilerplate folder and Install all dependencies (using the `npm install` command).
 
-This boilerplate project includes React ESLint configuration.
+Run:
+1. Navigate to chatt_server folder and run ``node server.js``
+2. Navigate to react-simple-boilerplate folder and run ``npm start``
+3. In a browser, chat on ``http://localhost:3000/``
 
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
